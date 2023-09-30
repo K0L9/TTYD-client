@@ -1,4 +1,4 @@
-FROM openjdk:17
+FROM eclipse-temurin:17-jdk-jammy
 LABEL org.opencontainers.image.authors="Nocne ptagi"
 COPY ttydbe ttydbe
 RUN ttydbe/mvnw -Dmaven.repo.local=ttydbe/.m2 -f ttydbe/pom.xml clean package && \
