@@ -1,0 +1,17 @@
+spring:
+
+  jackson:
+    default-property-inclusion: non_null
+    mapper:
+      sort-properties-alphabetically: true
+    serialization:
+      order-map-entries-by-keys: true
+      fail-on-empty-beans: false
+
+  data:
+    rest:
+      base-path: api
+      detection-strategy: annotated
+      return-body-on-create: false
+      return-body-on-update: false
+
