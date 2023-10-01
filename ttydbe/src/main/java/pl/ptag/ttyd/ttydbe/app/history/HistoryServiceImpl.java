@@ -19,7 +19,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class HistoryServiceImpl implements HistoryService {
+class HistoryServiceImpl implements HistoryService {
 
 
     @NonNull

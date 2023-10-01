@@ -24,7 +24,7 @@ import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
-public class Nl2SqlServiceImpl implements Nl2SqlService {
+class Nl2SqlServiceImpl implements Nl2SqlService {
 
     @NonNull
     private final ObjectMapper objectMapper;
