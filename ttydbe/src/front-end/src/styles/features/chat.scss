@@ -1,0 +1,19 @@
+.chat-container{
+    overflow-y: hidden;
+
+    .chat {
+        overflow-y: scroll;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+    width: 100%;
+    flex-grow: 1;
+
+    padding: 35px 35px 0 26px;
+
+    display: flex;
+    flex-direction: column;
+
+}

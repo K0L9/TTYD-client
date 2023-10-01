@@ -1,0 +1,44 @@
+.message-container {
+    display: flex;
+    background: #FAFAFA;
+
+    img{
+        margin-right: 14px;
+    }
+
+    margin-bottom: 20px;
+
+    
+    .message {
+        padding: 16px 21px;
+
+        color: black;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 150%; /* 24px */
+        letter-spacing: 0.48px;
+
+
+        border-radius: 8px;
+        border: 1px solid #A8A6FF;
+
+        max-width: 60%;
+        overflow-wrap: break-word;
+
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+}
+
+.my-message {
+    flex-direction: row-reverse;
+    .message {
+        background: #F4F3FF;
+     }
+}
+
+.bot-message {
+
+}
