@@ -12,7 +12,10 @@ const Header = () => {
           </span>
         </div>
         <div className="header-container-right">
-          <a href="#">Jak korzystać z narzędzia?</a>
+          {/* <a href="#">Jak korzystać z narzędzia?</a> */}
+          <button className="create-new-conversation-button">
+            Utwórz nowe zapytanie
+          </button>
         </div>
       </div>
     </header>

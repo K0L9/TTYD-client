@@ -1,16 +1,38 @@
-const Input = () => {
+import { useState } from "react";
+
+export interface IInputProps {
+  onSubmit: (text: string) => void;
+}
+
+const Input = ({ onSubmit }: IInputProps) => {
+  const [inputText, setInputText] = useState<string>("");
+
+  const onButtonHandle = () => {
+    onSubmit(inputText);
+  };
+
+  const onInputChange = (event: any) => {
+    setInputText(event.target.value);
+  };
+
   return (
     <>
       <div className="input-container white-container border-radius-container">
         <div className="input-box">
-          <input type="text" placeholder="Wpisz zapytanie..." />
+          <input
+            onChange={onInputChange}
+            type="text"
+            placeholder="Type request..."
+          />
         </div>
         <div className="button-box">
-          <button>{"Wyślij >"}</button>
+          <button onClick={onButtonHandle}>{"Wyślij >"}</button>
         </div>
       </div>
     </>
   );
 };
+
+Input.defaultProps = { onChange: () => {} };
 
 export default Input;

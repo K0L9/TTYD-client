@@ -1,23 +1,18 @@
 import icon from "../assets/message-bot-icon.svg";
+import { IMessagePair } from "../types/types";
 
-export interface IMessageProps {
-  value: string;
-  isBot: boolean;
-}
-
-const Message = ({ value, isBot }: IMessageProps) => {
-  const assignedClassName = isBot ? "bot-message" : "my-message";
-
+const Message = ({ sqlQuery, nlQuery }: IMessagePair) => {
   return (
     <>
-      <div className={`message-container ${assignedClassName}`}>
-        {isBot === true && <img src={icon}></img>}
-        <div className="message">{value}</div>
+      <div className={`message-container my-message`}>
+        <div className="message">{nlQuery}</div>
+      </div>
+      <div className={`message-container bot-message`}>
+        <img src={icon}></img>
+        <div className="message">{sqlQuery}</div>
       </div>
     </>
   );
 };
-
-Message.defaultProps = { value: "", isBot: true };
 
 export default Message;
