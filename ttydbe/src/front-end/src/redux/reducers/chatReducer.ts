@@ -1,4 +1,3 @@
-import { IConversation } from "../../types/types";
 import { ChatAction, ChatState, ChatActionTypes } from "../types/types";
 
 const initialState: ChatState = {

@@ -1,6 +1,6 @@
 import { applyMiddleware, combineReducers, compose, createStore } from "redux";
 import thunk from "redux-thunk";
-import { connectRouter, routerMiddleware } from "connected-react-router";
+import { routerMiddleware } from "connected-react-router";
 // import { History } from "history";
 import { ApplicationState, reducers } from "./";
 import { roomReducer } from "../redux/reducers/chatReducer";

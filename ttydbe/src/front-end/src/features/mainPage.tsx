@@ -13,7 +13,6 @@ import {
 } from "../types/types";
 import { useTypedSelector } from "../hooks/useTypedSelector";
 import { useActions } from "../hooks/useActions";
-import { changeCurrentChat } from "../redux/actions/chatActions";
 
 const MainPage = () => {
   const [history, setHistory] = useState<Array<IConversation>>([]);
