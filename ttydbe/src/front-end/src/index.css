@@ -21,4 +21,6 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background-color: white;
+  width: 100vw;
+  height: 100vh;
 }
