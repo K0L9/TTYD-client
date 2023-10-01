@@ -23,6 +23,7 @@ const Input = ({ onSubmit }: IInputProps) => {
             onChange={onInputChange}
             type="text"
             placeholder="Type request..."
+            value={inputText}
           />
         </div>
         <div className="button-box">
