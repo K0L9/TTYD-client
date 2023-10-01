@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Message from "../components/message";
 import emptyIcon from "../assets/empty-conversation-icon.svg";
-import { IConversation, IMessagePair } from "../types/types";
+import { IMessagePair } from "../types/types";
 import { useTypedSelector } from "../hooks/useTypedSelector";
 
 const Chat = () => {
@@ -15,8 +15,6 @@ const Chat = () => {
 
     if (messages) setMessages(messages.exchanges);
   }, [currentChat]);
-
-  console.log(messages);
 
   return (
     <>

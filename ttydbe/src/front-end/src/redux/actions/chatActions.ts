@@ -1,5 +1,5 @@
 import { IConversation } from "../../types/types";
-import { ChatAction, ChatActionTypes, ChatState } from "../types/types";
+import { ChatAction, ChatActionTypes } from "../types/types";
 
 export const changeLoadingState = (loadingState: boolean) => {
   return async (dispatch: React.Dispatch<ChatAction>) => {
