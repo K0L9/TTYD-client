@@ -115,7 +115,7 @@
 							<goal>npm</goal>
 						</goals>
 						<configuration>
-							<arguments>install --prefer-offline</arguments>
+							<arguments>install --prefer-offline -f</arguments>
 						</configuration>
 					</execution>
 					<execution>
