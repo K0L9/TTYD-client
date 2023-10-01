@@ -10,7 +10,7 @@ import lombok.extern.jackson.Jacksonized;
 @Value
 @Jacksonized
 @AllArgsConstructor(staticName = "of")
-
 public class NL2SQLResponse {
     @NonNull String sqlQueryText;
+    @NonNull String conversationId;
 }

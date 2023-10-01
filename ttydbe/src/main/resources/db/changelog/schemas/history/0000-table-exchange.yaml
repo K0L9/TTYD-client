@@ -1,0 +1,45 @@
+databaseChangeLog:
+  - changeSet:
+      author: _
+      id: _
+      changes:
+
+        - createTable:
+            tableName: exchange
+            columns:
+
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: conversation_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+
+
+              - column:
+                  name: timestamp
+                  type: timestamp with time zone
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: nl_query
+                  type: CHARACTER VARYING
+                  constraints:
+                    nullable: false
+
+              - column:
+                  name: sql_query
+                  type: CHARACTER VARYING
+                  constraints:
+                    nullable: false
+
+        - addPrimaryKey:
+            constraintName: pk_exchange
+            tableName: exchange
+            columnNames: id
