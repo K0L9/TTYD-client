@@ -9,24 +9,51 @@ import {
   IRestResponse,
   IMessageArray,
   ISendRequestResponse,
+  IMessagePair,
 } from "../types/types";
+import { useTypedSelector } from "../hooks/useTypedSelector";
+import { useActions } from "../hooks/useActions";
+import { changeCurrentChat } from "../redux/actions/chatActions";
 
 const MainPage = () => {
   const [history, setHistory] = useState<Array<IConversation>>([]);
 
+  const { currentChat } = useTypedSelector((x) => x.room);
+
+  const { changeLoadingState, uploadHistory } = useActions();
+
   useEffect(() => {
     http.get("history").then((x: IRestResponse<IMessageArray>) => {
       setHistory(x.data.conversations);
+      uploadHistory(x.data.conversations);
     });
   }, []);
 
-  const onSendSubmit = (value: string) => {
+  const onSendSubmit = async (value: string) => {
     const data = { nlQueryText: value };
 
-    http.post<ISendRequestResponse>("nl-2-sql", data).then((x) => {
-      console.log(x.data.sqlQueryText);
-      console.log(x.status);
-    });
+    changeLoadingState(true);
+
+    const result = await http.post<ISendRequestResponse>("nl-2-sql", data);
+
+    const messagePair: IMessagePair = {
+      sqlQuery: result.data.sqlQueryText,
+      nlQuery: value,
+    };
+
+    const historyTmp = history.slice();
+    const ind = historyTmp.findIndex((x) => x.conversationId === currentChat);
+    historyTmp[ind].exchanges.push(messagePair);
+
+    setHistory(historyTmp);
+    // changeCurrentChat()
+
+    changeLoadingState(false);
+
+    // http.post<ISendRequestResponse>("nl-2-sql", data).then((x) => {
+    //   console.log(x.data.sqlQueryText);
+    //   console.log(x.status);
+    // });
   };
 
   return (

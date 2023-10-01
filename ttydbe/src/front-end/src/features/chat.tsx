@@ -1,39 +1,33 @@
 import { useEffect, useState } from "react";
-import Message, { IMessageProps } from "../components/message";
+import Message from "../components/message";
 import emptyIcon from "../assets/empty-conversation-icon.svg";
+import { IConversation, IMessagePair } from "../types/types";
+import { useTypedSelector } from "../hooks/useTypedSelector";
 
 const Chat = () => {
-  const [messages, setMessages] = useState<Array<IMessageProps>>([]);
+  const [messages, setMessages] = useState<Array<IMessagePair>>([]);
+  const { history } = useTypedSelector((x) => x.room);
+
+  const { currentChat } = useTypedSelector((x) => x.room);
 
   useEffect(() => {
-    setMessages([
-      // { value: "Hello", isBot: true },
-      // {
-      //   value:
-      //     "Dla każdego podatnika (NIP) dla każdego miesiąca (ROKMC) oraz identyfikatora nagłówka (NAGLOWEK_ID) oblicz sumy kontrolne: liczbę faktur po stronie zakupów (DOWOD_ZAKUPU) , liczbę faktur po stronie sprzedaży (DOWOD_SPRZEDAZY), liczbę dostawców (NR_DOSTAWCY), liczbę kontrahentów (NR_KONTRAHENTA), wartość netto sprzedaży (P_96)",
-      //   isBot: false,
-      // },
-      // { value: "Hello123", isBot: true },
-      // {
-      //   value:
-      //     "Dla każdego podatnika (NIP) dla każdego miesiąca (ROKMC) oraz identyfikatora nagłówka (NAGLOWEK_ID) oblicz sumy kontrolne: liczbę faktur po stronie zakupów (DOWOD_ZAKUPU) , liczbę faktur po stronie sprzedaży (DOWOD_SPRZEDAZY), liczbę dostawców (NR_DOSTAWCY), liczbę kontrahentów (NR_KONTRAHENTA), wartość netto sprzedaży (P_96)",
-      //   isBot: false,
-      // },
-      // {
-      //   value:
-      //     "Dla każdego podatnika (NIP) dla każdego miesiąca (ROKMC) oraz identyfikatora nagłówka (NAGLOWEK_ID) oblicz sumy kontrolne: liczbę faktur po stronie zakupów (DOWOD_ZAKUPU) , liczbę faktur po stronie sprzedaży (DOWOD_SPRZEDAZY), liczbę dostawców (NR_DOSTAWCY), liczbę kontrahentów (NR_KONTRAHENTA), wartość netto sprzedaży (P_96)",
-      //   isBot: false,
-      // },
-    ]);
-  }, []);
+    const messages = history.find((x) => x.conversationId == currentChat);
+
+    if (messages) setMessages(messages.exchanges);
+  }, [currentChat]);
+
+  console.log(messages);
 
   return (
     <>
       <div className="chat-container white-container border-radius-container">
         <div className="chat">
           {messages && messages.length > 0 ? (
-            messages.map((element: IMessageProps) => (
-              <Message value={element.value} isBot={element.isBot}></Message>
+            messages.map((element: IMessagePair) => (
+              <Message
+                nlQuery={element.nlQuery}
+                sqlQuery={element.sqlQuery}
+              ></Message>
             ))
           ) : (
             <center>
