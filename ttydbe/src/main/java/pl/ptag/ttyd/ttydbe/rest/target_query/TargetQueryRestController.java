@@ -1,39 +1,74 @@
 package pl.ptag.ttyd.ttydbe.rest.target_query;
 
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pl.ptag.ttyd.ttydbe.app.target_query.TargetDbQueryService;
 import pl.ptag.ttyd.ttydbe.rest.target_query.dto.QueryRequestDTO;
 import pl.ptag.ttyd.ttydbe.rest.target_query.dto.QueryResultDTO;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @RestController
 @RequestMapping("target-query")
+@RequiredArgsConstructor
 public class TargetQueryRestController {
+
+
+    @NonNull
+    private final TargetDbQueryService targetDbQueryService;
 
     @PostMapping("/as-json")
     public @NonNull QueryResultDTO asJson(@NonNull @RequestBody QueryRequestDTO queryRequest){
+        val result = targetDbQueryService.getShortResult(queryRequest.getSqlQuery());
         return QueryResultDTO.builder()
             .query(queryRequest.getSqlQuery())
-            .column("P_96")
-            .column("P_97")
-            .result(List.of(
-                List.of("132.00", "133.00"),
-                List.of("132.50", "145.66")
-            ))
-            .complete(true)
+            .columns(result.getColumns())
+            .complete(result.isComplete())
+            .result(result.getRows())
             .build();
     }
 
     @PostMapping(value = "/as-csv", produces = "text/csv; charset=UTF-8")
-    public @NonNull Resource asCsv(@NonNull @RequestBody QueryRequestDTO queryRequest){
-        return new ByteArrayResource(("\"P_96\",\"P_97\"\r\n\"132.00\",\"133.00\"\r\n\"132.50\",\"145.66\"\n").getBytes(StandardCharsets.UTF_8));
+    public @NonNull ResponseEntity<Resource> asCsv(@NonNull @RequestBody QueryRequestDTO queryRequest){
+        val tmpFile = targetDbQueryService.getCSVResult(queryRequest.getSqlQuery());
+        val fileSize = tmpFile.length();
+        try {
+            val autoRemovingIs = new InputStream() {
+
+                final InputStream tmpIs = new FileInputStream(tmpFile);
+
+                @Override
+                public int read() throws IOException {
+                    return tmpIs.read();
+                }
+
+                @Override
+                public void close() throws IOException {
+                    tmpIs.close();
+                    tmpFile.delete();
+                }
+            };
+            val resource = new InputStreamResource(autoRemovingIs);
+            return ResponseEntity.ok()
+                .contentLength(fileSize)
+                .body(resource);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
